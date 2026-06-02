@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PMO Meeting Hub SQLite</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <noscript>
+      <p class="noscript-warning">このアプリを使うにはJavaScriptを有効にしてください。</p>
+    </noscript>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">DB</span>
+          <div>
+            <h1>PMO Meeting Hub</h1>
+            <p>SQLite版</p>
+          </div>
+        </div>
+
+        <button class="primary-button" id="newMeetingButton" type="button">新規会議</button>
+
+        <div class="meeting-list-header">
+          <span>会議一覧</span>
+          <strong id="meetingCount">0</strong>
+        </div>
+        <nav class="meeting-list" id="meetingList" aria-label="会議一覧"></nav>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">SQLite / API prototype</p>
+            <h2 id="pageTitle">読み込み中</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button" id="exportMarkdownButton" type="button">Markdown</button>
+            <button class="ghost-button" id="exportCsvButton" type="button">CSV</button>
+          </div>
+        </section>
+
+        <p class="status-message" id="statusMessage" role="status">APIからデータを読み込みます。</p>
+
+        <section class="summary-strip" aria-label="サマリー">
+          <div>
+            <span>決定事項</span>
+            <strong id="decisionSummary">0</strong>
+          </div>
+          <div>
+            <span>ToDo</span>
+            <strong id="todoSummary">0</strong>
+          </div>
+          <div>
+            <span>課題</span>
+            <strong id="issueSummary">0</strong>
+          </div>
+          <div>
+            <span>未完了</span>
+            <strong id="openSummary">0</strong>
+          </div>
+        </section>
+
+        <section class="editor-grid">
+          <form class="panel meeting-form" id="meetingForm">
+            <div class="panel-heading">
+              <h3>会議情報</h3>
+              <button class="danger-button" id="deleteMeetingButton" type="button" disabled>削除</button>
+            </div>
+
+            <label>
+              会議名
+              <input id="meetingTitle" name="title" required disabled />
+            </label>
+            <label>
+              開催日
+              <input id="meetingDate" name="date" type="date" required disabled />
+            </label>
+            <label>
+              参加者
+              <input id="meetingAttendees" name="attendees" placeholder="山田, 佐藤, 鈴木" disabled />
+            </label>
+            <label>
+              議事録
+              <textarea id="meetingMinutes" name="minutes" rows="9" disabled></textarea>
+            </label>
+            <button class="primary-button" id="saveMeetingButton" type="button" disabled>保存</button>
+          </form>
+
+          <section class="panel item-panel">
+            <div class="tabs" role="tablist" aria-label="登録種別">
+              <button class="tab is-active" data-tab="decisions" type="button">決定事項</button>
+              <button class="tab" data-tab="todos" type="button">ToDo</button>
+              <button class="tab" data-tab="issues" type="button">課題</button>
+            </div>
+
+            <form class="item-form" id="itemForm">
+              <label>
+                内容
+                <input id="itemText" required disabled />
+              </label>
+              <div class="field-row">
+                <label>
+                  担当者
+                  <input id="itemOwner" disabled />
+                </label>
+                <label>
+                  期限
+                  <input id="itemDueDate" type="date" disabled />
+                </label>
+              </div>
+              <label>
+                ステータス
+                <select id="itemStatus" disabled>
+                  <option value="未着手">未着手</option>
+                  <option value="進行中">進行中</option>
+                  <option value="完了">完了</option>
+                  <option value="保留">保留</option>
+                </select>
+              </label>
+              <button class="primary-button" id="addItemButton" type="button" disabled>追加</button>
+            </form>
+
+            <div class="item-list" id="itemList"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <template id="meetingButtonTemplate">
+      <button class="meeting-button" type="button">
+        <span class="meeting-button-title"></span>
+        <span class="meeting-button-meta"></span>
+      </button>
+    </template>
+
+    <template id="itemTemplate">
+      <article class="item-card">
+        <div>
+          <p class="item-text"></p>
+          <div class="item-meta"></div>
+        </div>
+        <div class="item-actions">
+          <select class="status-select" aria-label="ステータス変更">
+            <option value="未着手">未着手</option>
+            <option value="進行中">進行中</option>
+            <option value="完了">完了</option>
+            <option value="保留">保留</option>
+          </select>
+          <button class="icon-button" type="button" aria-label="削除">×</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

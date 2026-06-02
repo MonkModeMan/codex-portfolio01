@@ -1,0 +1,14 @@
+# Runtime data
+sqlite-app/data/
+sqlite-app/download/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log
+
+# Local notes
+ローカルサーバー起動コマンド.txt
